@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: MySQL-8.0
--- Время создания: Ноя 12 2024 г., 21:26
+-- Время создания: Ноя 13 2024 г., 17:42
 -- Версия сервера: 8.0.35
 -- Версия PHP: 8.3.6
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `files` (
-  `file_id` bigint UNSIGNED NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `file_url` text NOT NULL,
   `project_id` bigint UNSIGNED DEFAULT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE `files` (
 -- Дамп данных таблицы `files`
 --
 
-INSERT INTO `files` (`file_id`, `file_name`, `file_url`, `project_id`, `task_id`) VALUES
+INSERT INTO `files` (`id`, `file_name`, `file_url`, `project_id`, `task_id`) VALUES
 (1, 'WebsiteMockups.pdf', 'http://example.com/files/website_mockups.pdf', 1, NULL),
 (2, 'WireframeSketches.png', 'http://example.com/files/wireframe_sketches.png', NULL, 1),
 (3, 'AppSpecifications.pdf', 'http://example.com/files/app_specifications.pdf', 2, NULL),
@@ -52,7 +52,7 @@ INSERT INTO `files` (`file_id`, `file_name`, `file_url`, `project_id`, `task_id`
 --
 
 CREATE TABLE `projects` (
-  `project_id` bigint UNSIGNED NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
   `project_name` varchar(255) NOT NULL,
   `project_description` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -61,7 +61,7 @@ CREATE TABLE `projects` (
 -- Дамп данных таблицы `projects`
 --
 
-INSERT INTO `projects` (`project_id`, `project_name`, `project_description`) VALUES
+INSERT INTO `projects` (`id`, `project_name`, `project_description`) VALUES
 (1, 'Website Redesign', 'Redesigning the company website for a modern look and improved UX.'),
 (2, 'Mobile App Development', 'Developing a mobile application for iOS and Android platforms.');
 
@@ -72,7 +72,7 @@ INSERT INTO `projects` (`project_id`, `project_name`, `project_description`) VAL
 --
 
 CREATE TABLE `project_users` (
-  `project_user_id` bigint UNSIGNED NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
   `project_id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -81,7 +81,7 @@ CREATE TABLE `project_users` (
 -- Дамп данных таблицы `project_users`
 --
 
-INSERT INTO `project_users` (`project_user_id`, `project_id`, `user_id`) VALUES
+INSERT INTO `project_users` (`id`, `project_id`, `user_id`) VALUES
 (1, 1, 1),
 (2, 1, 2),
 (3, 1, 3),
@@ -96,7 +96,7 @@ INSERT INTO `project_users` (`project_user_id`, `project_id`, `user_id`) VALUES
 --
 
 CREATE TABLE `tasks` (
-  `task_id` bigint UNSIGNED NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
   `project_id` bigint UNSIGNED NOT NULL,
   `task_name` varchar(255) NOT NULL,
   `task_description` text,
@@ -107,7 +107,7 @@ CREATE TABLE `tasks` (
 -- Дамп данных таблицы `tasks`
 --
 
-INSERT INTO `tasks` (`task_id`, `project_id`, `task_name`, `task_description`, `author_id`) VALUES
+INSERT INTO `tasks` (`id`, `project_id`, `task_name`, `task_description`, `author_id`) VALUES
 (1, 1, 'Create Wireframes', 'Design the initial wireframes for the homepage and key sections.', 1),
 (2, 2, 'Set Up Backend API', 'Develop the backend API endpoints for data retrieval.', 2),
 (3, 1, 'Implement UI Components', 'Build and integrate UI components into the frontend.', 3);
@@ -119,7 +119,7 @@ INSERT INTO `tasks` (`task_id`, `project_id`, `task_name`, `task_description`, `
 --
 
 CREATE TABLE `task_assignees` (
-  `task_assignee_id` bigint UNSIGNED NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
   `task_id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -128,7 +128,7 @@ CREATE TABLE `task_assignees` (
 -- Дамп данных таблицы `task_assignees`
 --
 
-INSERT INTO `task_assignees` (`task_assignee_id`, `task_id`, `user_id`) VALUES
+INSERT INTO `task_assignees` (`id`, `task_id`, `user_id`) VALUES
 (1, 1, 2),
 (2, 1, 3),
 (3, 2, 3),
@@ -147,7 +147,7 @@ INSERT INTO `task_assignees` (`task_assignee_id`, `task_id`, `user_id`) VALUES
 --
 
 CREATE TABLE `users` (
-  `user_id` bigint UNSIGNED NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
   `user_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -156,7 +156,7 @@ CREATE TABLE `users` (
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_name`, `email`) VALUES
+INSERT INTO `users` (`id`, `user_name`, `email`) VALUES
 (1, 'John Doe', 'john.doe@example.com'),
 (2, 'Jane Smith', 'jane.smith@example.com'),
 (3, 'Michael Brown', 'michael.brown@example.com'),
@@ -170,7 +170,7 @@ INSERT INTO `users` (`user_id`, `user_name`, `email`) VALUES
 -- Индексы таблицы `files`
 --
 ALTER TABLE `files`
-  ADD PRIMARY KEY (`file_id`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `project_id` (`project_id`),
   ADD KEY `task_id` (`task_id`);
 
@@ -178,14 +178,14 @@ ALTER TABLE `files`
 -- Индексы таблицы `projects`
 --
 ALTER TABLE `projects`
-  ADD PRIMARY KEY (`project_id`),
-  ADD UNIQUE KEY `project_id` (`project_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `project_id` (`id`);
 
 --
 -- Индексы таблицы `project_users`
 --
 ALTER TABLE `project_users`
-  ADD PRIMARY KEY (`project_user_id`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `project_id` (`project_id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -193,7 +193,7 @@ ALTER TABLE `project_users`
 -- Индексы таблицы `tasks`
 --
 ALTER TABLE `tasks`
-  ADD PRIMARY KEY (`task_id`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `project_id` (`project_id`),
   ADD KEY `author_id` (`author_id`);
 
@@ -201,7 +201,7 @@ ALTER TABLE `tasks`
 -- Индексы таблицы `task_assignees`
 --
 ALTER TABLE `task_assignees`
-  ADD PRIMARY KEY (`task_assignee_id`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `task_id` (`task_id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -209,8 +209,8 @@ ALTER TABLE `task_assignees`
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `user_id` (`user_id`),
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id` (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
@@ -221,37 +221,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `files`
 --
 ALTER TABLE `files`
-  MODIFY `file_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `project_users`
 --
 ALTER TABLE `project_users`
-  MODIFY `project_user_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `task_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `task_assignees`
 --
 ALTER TABLE `task_assignees`
-  MODIFY `task_assignee_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -261,29 +261,29 @@ ALTER TABLE `users`
 -- Ограничения внешнего ключа таблицы `files`
 --
 ALTER TABLE `files`
-  ADD CONSTRAINT `files_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`project_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `files_ibfk_2` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `files_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `files_ibfk_2` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`) ON DELETE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `project_users`
 --
 ALTER TABLE `project_users`
-  ADD CONSTRAINT `project_users_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`project_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `project_users_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `project_users_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_users_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `tasks`
 --
 ALTER TABLE `tasks`
-  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`project_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `tasks_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `users` (`user_id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tasks_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Ограничения внешнего ключа таблицы `task_assignees`
 --
 ALTER TABLE `task_assignees`
-  ADD CONSTRAINT `task_assignees_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `task_assignees_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `task_assignees_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `task_assignees_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
